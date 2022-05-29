@@ -1,0 +1,72 @@
+{% extends "layout.html" %}
+{% block content %}
+
+	<h1>Blockchain</h1>
+	<p>Oficialus, patvirtintas Blockchain variantas</p>
+	<div class="container">
+		<div class="card-columns" display: inline-block>
+			{% for block in blockchain.chain %}
+			<div class="card border-primary mb-3" style="width: 16rem;">
+				<div class="card-body">
+				  <h5 class="card-title">Blokas<small class="text-muted">[{{loop.index}}]</small></h5>
+				</div>
+				<ul class="list-group list-group-flush">
+				  <li class="list-group-item">
+				  	<span class="">Hash(Identifikatorius)</span>
+				  	<br>
+				  	<div class="text-truncate">
+				  		<small>{{ block.hash[0:20] }}</small>
+				  	</div>
+				  </li>
+					<li class="list-group-item">
+					<span class="">Ankstesnio bloko Hash</span>
+				  	<br>
+
+				  	<div class="text-truncate">
+				  		<small>{{ block.prev[0:20] }}</small>
+				  	</div>
+				  </li>
+				  <li class="list-group-item">
+				  	<span class="">Laiko žyma</span><br>
+				  	<div class="text-truncate text-muted">
+				  		<small>{{ block.time }}</small>
+				  	</div>
+				  </li>
+				  <li class="list-group-item">
+				  	<button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapse{{loop.index}}" aria-expanded="false" aria-controls="collapse">
+						Peržiūrėti operacijas 
+				  	</button>
+				  </li>
+				  <li class="list-group-item">
+					  <div class="collapse" id="collapse{{loop.index}}">
+					  	{% if loop.index == 1 %}
+					  		<span class="">Operacijų nėra</span>
+					  	{% else %}
+						  	{% for transaction in block.transactions %}
+						  		<span class="">Operacija {{loop.index}}:</span>
+						  		<br>
+						  		<small>Siuntėjas: {{ transaction.sender }}</small>
+						  		<br>
+						  		<small>Gavėjas: {{ transaction.reciever }}</small>
+						  		<br>
+						  		<small>Kiekis: {{ transaction.amt }}</small>
+						  		<br>
+						  		<small>Data/Laikas: {{ transaction.time }}</small>
+						  		<br>
+						  	{% endfor %}
+						{% endif %}
+					  </div>
+				  </li>
+				</ul>
+			</div>
+			
+			
+		{% endfor %}
+	</div>
+</div>
+
+	
+
+
+
+{% endblock content %}

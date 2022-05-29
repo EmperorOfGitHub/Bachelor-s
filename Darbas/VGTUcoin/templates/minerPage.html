@@ -1,0 +1,54 @@
+{% extends "layout.html" %}
+{% block content %}
+
+	<h1>Kasti Blockchain blokus</h1>
+	<p>Kasybos atlygis: 200 VGTUcoins </p>
+	<h4>Laukiančios operacijos:</h4>
+	<table class="table">
+	  <thead class="thead-dark">
+	    <th scope="col">#</th>
+		      <th scope="col">Siuntėjas</th>
+		      <th scope="col">Gavėjas</th>
+		      <th scope="col">Kiekis</th>
+		      <th scope="col">Laiko žyma</th>
+		      <th scope="col">Patvirtinimas</th>
+	    </tr>
+	  </thead>
+	  <tbody>
+	    {% for tx in blockchain.pendingTransactions %}
+	    <tr>
+	      <th scope="row">{{loop.index0}}</th>
+	      
+	      <td class="text-truncate" style="max-width: 100px;">
+	        <a>{{tx.sender}}</a>
+	      </td>
+	      <td class="text-truncate" style="max-width: 100px;">
+	          <a>{{tx.reciever}}</a>
+	      </td>
+	      <td>
+	        {{tx.amt}}
+	      </td>
+	      <td>
+	        {{tx.time }}<br>
+	      </td>
+	      <td style="max-width: 40px;">
+	      	{% if tx.isValidTransaction() %}
+	        	<span>✓</span>
+	        {%else%}
+	        	<span>✗</span>
+	        {%endif%}
+	      </td>
+	    </tr>
+	    {% endfor %}
+	  </tbody>
+	</table>
+	{% if current_user.is_authenticated %}
+		<div class=""> 
+			<a href="{{url_for('mine', miner=current_user.username)}}"><button type="button" class="btn btn-primary">Kasti naują bloką</button></a>
+		</div>
+	{% else %}
+		<div class=""> 
+			<a href="{{url_for('login')}}"><button type="button" class="btn btn-info">Prisijunkite prie savo paskyros, kad pradėti kasybą</button></a>
+		</div>
+	{% endif %}
+{% endblock content %}
